@@ -23,7 +23,7 @@ POST   - receives the following parameters:
              program 
              error
              info, 
-         returns REPORT
+         returns new created REPORT
 PUT    - invalid
 DELETE - invalid
 ```
@@ -85,7 +85,7 @@ PUT    - invalid
 DELETE - invalid
 ```
 
-For invalid requests, errors *405* and *404* will be returned.
+For invalid requests, errors **405** and **404** will be returned.
 
 - 405 for valid URLs and invalid methods
 
@@ -94,7 +94,6 @@ For invalid requests, errors *405* and *404* will be returned.
 ###Examples of the response types (JSON)
 ####1. `REPORT`
 ```
-Report:
 {
     "id" : "19582639",
     "program" : "UI",
@@ -130,7 +129,6 @@ Represents the JSON list of `REPORT` objects:
 ####4. `LIST_OF_PROGRAMS`
 Represents the JSON list of `PROGRAM_INFO` objects:
 ```
-List of programs:
 [
     {
         "name" : "compiler",
