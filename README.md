@@ -18,7 +18,7 @@ See usage examples for more information.
 ###Examples or requests and responses
 ####1. `/reports/`
 ```
-GET    - returns LIST_OF_REPORTS
+GET    - returns global LIST_OF_REPORTS
 POST   - receives the following parameters: 
              program 
              error
@@ -33,8 +33,7 @@ DELETE - invalid
 GET    - returns REPORT 
 POST   - invalid
 PUT    - invalid
-DELETE - invalid (will be implemented only if I have time
-                 in this case will return HTTP status code)
+DELETE - invalid
 ```
 
 ####3. `/programs/`
@@ -53,9 +52,9 @@ PUT    - invalid
 DELETE - invalid
 ```
 
-####5. `/programs/<name>/errors/`
+####5. `/programs/<name>/reports/`
 ```
-GET    - returns LIST_OF_ERRORS, found in the particular program 
+GET    - returns LIST_OF_REPORTS, found in the particular program 
 POST   - invalid
 PUT    - invalid
 DELETE - invalid
@@ -77,9 +76,9 @@ PUT    - invalid
 DELETE - invalid
 ```
 
-####8. `/errors/<error>/programs/`
+####8. `/errors/<error>/reports/`
 ```
-GET    - returns LIST_OF_PROGRAMS, that have the particular error 
+GET    - returns LIST_OF_REPORTS, that have the particular error 
 POST   - invalid
 PUT    - invalid
 DELETE - invalid
@@ -123,7 +122,8 @@ Represents the JSON list of `REPORT` objects:
 ```
 {
     "name" : "UI",
-    "errcount" : "3"
+    "errcount" : "3",
+    "repcount" : "2"
 }
 ```
 ####4. `LIST_OF_PROGRAMS`
@@ -132,11 +132,13 @@ Represents the JSON list of `PROGRAM_INFO` objects:
 [
     {
         "name" : "compiler",
-        "errcount" : "5"
+        "errcount" : "5",
+        "repcount" : "6"
     },
     {
         "name" : "UI",
-        "errcount" : "3"
+        "errcount" : "3",
+        "repcount" : "2"
     }
 ]
 ```
@@ -147,7 +149,7 @@ Represents the JSON list of `PROGRAM_INFO` objects:
     "count" : "7"
 }
 ```
-####4. `LIST_OF_ERRORS`
+####6. `LIST_OF_ERRORS`
 Represents the JSON list of `ERROR_DESCRIPTION` objects:
 ```
 [
