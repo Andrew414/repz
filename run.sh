@@ -1,3 +1,5 @@
+./kill.sh
+rm srepz
 NGXCFGFOLDER=$(pwd)
 sudo nginx -c $(echo $NGXCFGFOLDER"/nginx.cfg")
 sudo nginx -s reopen
