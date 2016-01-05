@@ -27,6 +27,7 @@ void db_init()
 
 void get_reports(char* program, char* error, char* generated)
 {
+    int found = 0;
     g_query = bson_new();
     if (program) 
     {
@@ -41,6 +42,7 @@ void get_reports(char* program, char* error, char* generated)
     strcpy(generated, "[     \r\n");
     while (mongoc_cursor_next (g_select, &g_response)) 
     {
+        found = 1;
         g_str = bson_as_json (g_response, NULL);
         strcat(generated,"\t");
         strcat(generated, g_str);
@@ -53,7 +55,7 @@ void get_reports(char* program, char* error, char* generated)
 
     bson_destroy (g_query);
     mongoc_cursor_destroy(g_select);
-    bson_free(g_str);
+    if (found) bson_free(g_str);
 }
 
 int get_report(char* id, char* generated)

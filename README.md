@@ -121,8 +121,8 @@ Represents the JSON list of `REPORT` objects:
 ####3. `PROGRAM_INFO`
 ```
 {
-    "name" : "UI",
-    "repcount" : "2"
+    "_id" : "UI",
+    "count" : "2"
 }
 ```
 ####4. `LIST_OF_PROGRAMS`
@@ -130,19 +130,19 @@ Represents the JSON list of `PROGRAM_INFO` objects:
 ```
 [
     {
-        "name" : "compiler",
-        "repcount" : "6"
+        "_id" : "compiler",
+        "count" : "6"
     },
     {
-        "name" : "UI",
-        "repcount" : "2"
+        "_id" : "UI",
+        "count" : "2"
     }
 ]
 ```
 ####5. `ERROR_DESCRIPTION`
 ```
 {
-    "code" : "7F",
+    "_id" : "7F",
     "count" : "7"
 }
 ```
@@ -151,15 +151,15 @@ Represents the JSON list of `ERROR_DESCRIPTION` objects:
 ```
 [
     {
-        "code" : "7F",
+        "_id" : "7F",
         "count" : "7"
     },
     {
-        "code" : "DF",
+        "_id" : "DF",
         "count" : "3"
     },
     {
-        "code" : "C0",
+        "_id" : "C0",
         "count" : "2"
     }
 ]

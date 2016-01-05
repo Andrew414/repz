@@ -97,8 +97,11 @@ int process_programs_reports(char* url, char* method, char* outbuffer, int* outb
     char result [RESPONSE_SHR] = {0};
     if (0 == strcmp(method, "GET"))
     {
-        strncpy(outbuffer, "[{\"id\" : \"62857028\",\"program\" : \"compiler\",\"error\" : \"7F\",\"info\" : \"kernel_panic\"}]",
-            outbufsize ? *outbufsize : RESPONSE_LEN);
+        char* prog = strstr(url + 1, "/");
+        char* tail = strstr(prog + 1, "/");
+        *tail = 0;
+        get_reports(prog + 1, 0, result);
+        strncpy(outbuffer, result, outbufsize ? *outbufsize : RESPONSE_LEN);
         return 0;
     }
 
@@ -141,8 +144,11 @@ int process_errors_reports(char* url, char* method, char* outbuffer, int* outbuf
     char result [RESPONSE_SHR] = {0};
     if (0 == strcmp(method, "GET"))
     {
-        strncpy(outbuffer, "[{\"id\" : \"62857038\",\"program\" : \"compiler\",\"error\" : \"7F\",\"info\" : \"kernel_panic\"}]",
-            outbufsize ? *outbufsize : RESPONSE_LEN);
+        char* prog = strstr(url + 1, "/");
+        char* tail = strstr(prog + 1, "/");
+        *tail = 0;
+        get_reports(0, prog + 1, result);
+        strncpy(outbuffer, result, outbufsize ? *outbufsize : RESPONSE_LEN);
         return 0;
     }
 
