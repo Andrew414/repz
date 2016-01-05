@@ -17,13 +17,13 @@ void split_params(char* params)
             *params = 0;
 }
 
-int process_reports_list(char* method, char* outbuffer, int* outbufsize)
+int process_reports_list(char* url, char* method, char* outbuffer, int* outbufsize)
 {
+    char result [RESPONSE_SHR] = {0};
     if (0 == strcmp(method, "GET"))
     {
-        strncpy(outbuffer, "[{\"id\": \"19582639\",\"program\" : \"UI\",\"error\" : \"7F\",\"info\" : \"KeBugCheckEx\"},"
-            "{\"id\" : \"62857028\",\"program\" : \"compiler\",\"error\" : \"7F\",\"info\" : \"kernel_panic\"}]",
-            outbufsize ? *outbufsize : RESPONSE_LEN);
+        get_reports(0, 0, result);
+        strncpy(outbuffer, result, outbufsize ? *outbufsize : RESPONSE_LEN);
         return 0;
     }
     if (0 == strcmp(method, "POST"))
@@ -31,7 +31,7 @@ int process_reports_list(char* method, char* outbuffer, int* outbufsize)
         char* program = 0;
         char* error   = 0;
         char* info    = 0;
-        char result [256] = {0};
+        
         gets(result);
         program = parse("program", result);
         error   = parse("error",   result);
@@ -46,19 +46,23 @@ int process_reports_list(char* method, char* outbuffer, int* outbufsize)
     return EBADRQC;
 }
 
-int process_reports_id(char* method, char* outbuffer, int* outbufsize)
+int process_reports_id(char* url, char* method, char* outbuffer, int* outbufsize)
 {
+    char result [RESPONSE_SHR] = {0};
     if (0 == strcmp(method, "GET"))
     {
-        strncpy(outbuffer, "{\"id\" : \"19582639\",\"program\" : \"UI\",\"error\" : \"7F\",\"info\" : \"KeBugCheckEx\"}", outbufsize ? *outbufsize : RESPONSE_LEN);
-        return 0;
+        if (get_report(strstr(url, "reports/") + strlen("reports/"), result))
+        {
+            strncpy(outbuffer, result, outbufsize ? *outbufsize : RESPONSE_LEN);      
+            return 0;
+        }
     }
 
     strncpy(outbuffer, "{}", outbufsize ? *outbufsize : RESPONSE_LEN);
     return EBADRQC;
 }
 
-int process_programs_list(char* method, char* outbuffer, int* outbufsize)
+int process_programs_list(char* url, char* method, char* outbuffer, int* outbufsize)
 {
     if (0 == strcmp(method, "GET"))
     {
@@ -71,7 +75,7 @@ int process_programs_list(char* method, char* outbuffer, int* outbufsize)
     return EBADRQC;
 }
 
-int process_programs_name(char* method, char* outbuffer, int* outbufsize)
+int process_programs_name(char* url, char* method, char* outbuffer, int* outbufsize)
 {
     if (0 == strcmp(method, "GET"))
     {
@@ -84,7 +88,7 @@ int process_programs_name(char* method, char* outbuffer, int* outbufsize)
     return EBADRQC;
 }
 
-int process_programs_reports(char* method, char* outbuffer, int* outbufsize)
+int process_programs_reports(char* url, char* method, char* outbuffer, int* outbufsize)
 {
     if (0 == strcmp(method, "GET"))
     {
@@ -97,7 +101,7 @@ int process_programs_reports(char* method, char* outbuffer, int* outbufsize)
     return EBADRQC;
 }
 
-int process_errors_list(char* method, char* outbuffer, int* outbufsize)
+int process_errors_list(char* url, char* method, char* outbuffer, int* outbufsize)
 {
     if (0 == strcmp(method, "GET"))
     {
@@ -110,7 +114,7 @@ int process_errors_list(char* method, char* outbuffer, int* outbufsize)
     return EBADRQC;
 }
 
-int process_errors_desc(char* method, char* outbuffer, int* outbufsize)
+int process_errors_desc(char* url, char* method, char* outbuffer, int* outbufsize)
 {
     if (0 == strcmp(method, "GET"))
     {
@@ -123,7 +127,7 @@ int process_errors_desc(char* method, char* outbuffer, int* outbufsize)
     return EBADRQC;
 }
 
-int process_errors_reports(char* method, char* outbuffer, int* outbufsize)
+int process_errors_reports(char* url, char* method, char* outbuffer, int* outbufsize)
 {
     if (0 == strcmp(method, "GET"))
     {

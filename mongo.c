@@ -25,9 +25,59 @@ void db_init()
     g_collection_program = mongoc_client_get_collection (g_client, "test", "programs");
 }
 
-void get_reports(char* program, char* error)
+void get_reports(char* program, char* error, char* generated)
 {
+    g_query = bson_new();
+    if (program) 
+    {
+        BSON_APPEND_UTF8 (g_query, "program", program);
+    }
+    if (error) 
+    {
+        BSON_APPEND_UTF8 (g_query, "error", error);
+    }
+    g_select = mongoc_collection_find (g_collection_report, MONGOC_QUERY_NONE, 0, 0, 0, g_query, NULL, NULL);
     
+    strcpy(generated, "[\r\n");
+    while (mongoc_cursor_next (g_select, &g_response)) 
+    {
+        g_str = bson_as_json (g_response, NULL);
+        strcat(generated,"\t");
+        strcat(generated, g_str);
+        strcat(generated,",\r\n");
+    }
+    generated[strlen(generated) - 3] = '\r';
+    generated[strlen(generated) - 2] = '\n';
+    generated[strlen(generated) - 1] = ']';
+    generated[strlen(generated) - 0] = 0;
+
+    bson_destroy (g_query);
+    mongoc_cursor_destroy(g_select);
+    bson_free(g_str);
+}
+
+int get_report(char* id, char* generated)
+{
+    g_query = BCON_NEW ("$query", "{", "_id", id, "}"); 
+       
+    g_select = mongoc_collection_find (g_collection_report, MONGOC_QUERY_NONE, 0, 1 /*one element*/, 0, g_query, NULL, NULL);
+    if (mongoc_cursor_next(g_select, &g_response))
+    {
+        g_str = bson_as_json (g_response, NULL);
+        strcpy(generated, g_str);
+        bson_destroy (g_query);
+        mongoc_cursor_destroy(g_select);
+        bson_free(g_str);
+
+        return 1;
+    }
+
+    
+    strcpy(generated, "{}");
+
+    bson_destroy (g_query);
+    mongoc_cursor_destroy(g_select);
+    return 0;
 }
 
 void add_report(char* program, char* error, char* info, char* generated)
