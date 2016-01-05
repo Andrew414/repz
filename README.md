@@ -169,7 +169,7 @@ Represents the JSON list of `ERROR_DESCRIPTION` objects:
 ```
 
 ##CAP theorem
-#####This service will be AP-service, based on MongoDB. 
+#####This service will be AP-service. 
 
 Since it's supposed that bugreports will be *automatically* uploaded by some applications, and not by users, there is no much need of the consistensy, from my point of view.
 
@@ -179,5 +179,3 @@ It's not important to get the immediate confirmation that report is processed an
 Regarding the availability and partition tolerance - I believe it's more important. 
 Unlike the user, the automatic uploader can't wait until the service gets available after some partitial crash. 
 So, I think, in case of such crash, the service should accept new reports, maybe making the data not 100% consistent.
-
-I think MongoDB supports such configuration - it continues accepting the ADD requests even being divided into subparts, with consistensy recovered eventually.  
