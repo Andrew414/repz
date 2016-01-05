@@ -1,4 +1,21 @@
 #include "commondefs.h"
+#include "fcgi_stdio.h"
+
+#include <bson.h>
+#include <bcon.h>
+#include <mongoc.h>
+
+char* parse(char* paramname, char* params)
+{
+    return strstr(params, paramname) + strlen(paramname)+1;
+}
+
+void split_params(char* params)
+{
+    for (; *params; params++)
+        if (*params == '&')
+            *params = 0;
+}
 
 int process_reports_list(char* method, char* outbuffer, int* outbufsize)
 {
@@ -11,7 +28,17 @@ int process_reports_list(char* method, char* outbuffer, int* outbufsize)
     }
     if (0 == strcmp(method, "POST"))
     {
-        strncpy(outbuffer, "{\"id\" : \"19582639\",\"program\" : \"UI\",\"error\" : \"7F\",\"info\" : \"KeBugCheckEx\"}", outbufsize ? *outbufsize : RESPONSE_LEN);
+        char* program = 0;
+        char* error   = 0;
+        char* info    = 0;
+        char result [256] = {0};
+        gets(result);
+        program = parse("program", result);
+        error   = parse("error",   result);
+        info    = parse("info",    result);
+        split_params(result);
+        add_report(program, error, info, result);
+        strncpy(outbuffer, result, outbufsize ? *outbufsize : RESPONSE_LEN);
         return 0;
     }
 

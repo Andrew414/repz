@@ -4,6 +4,7 @@
 int main()
 {
     char * response = malloc(RESPONSE_LEN);
+    db_init();
 
     while (FCGI_Accept() >= 0) {
         char* uri = getenv("REQUEST_URI");
