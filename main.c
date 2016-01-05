@@ -40,7 +40,10 @@ int main()
         if (uri == strstr(uri, "/programs/") && strchragg(uri, '/')==2)
         {
             int retcode = process_programs_name(uri, method, response, NULL);
-            print_response(retcode, response);
+            if (!retcode)
+                print_response(retcode, response);
+            else   
+                print_not_found(uri);
             continue;
         }
 
@@ -54,22 +57,25 @@ int main()
 
         if (0 == strcmp("/errors", uri))
         {
-            int retcode = process_programs_list(uri, method, response, NULL);
+            int retcode = process_errors_list(uri, method, response, NULL);
             print_response(retcode, response);
             continue;
         }
 
         if (uri == strstr(uri, "/errors/") && strchragg(uri, '/')==2)
         {
-            int retcode = process_programs_name(uri, method, response, NULL);
-            print_response(retcode, response);
+            int retcode = process_errors_desc(uri, method, response, NULL);
+            if (!retcode)
+                print_response(retcode, response);
+            else   
+                print_not_found(uri);
             continue;
         }
 
         if (uri == strstr(uri, "/errors/") && strchragg(uri, '/')==3 &&
             (uri + strlen(uri) - strlen("/reports")) == strstr(uri, "/reports"))
         {
-            int retcode = process_programs_reports(uri, method, response, NULL);
+            int retcode = process_errors_reports(uri, method, response, NULL);
             print_response(retcode, response);
             continue;
         }

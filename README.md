@@ -122,7 +122,6 @@ Represents the JSON list of `REPORT` objects:
 ```
 {
     "name" : "UI",
-    "errcount" : "3",
     "repcount" : "2"
 }
 ```
@@ -132,12 +131,10 @@ Represents the JSON list of `PROGRAM_INFO` objects:
 [
     {
         "name" : "compiler",
-        "errcount" : "5",
         "repcount" : "6"
     },
     {
         "name" : "UI",
-        "errcount" : "3",
         "repcount" : "2"
     }
 ]

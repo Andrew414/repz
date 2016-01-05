@@ -64,10 +64,11 @@ int process_reports_id(char* url, char* method, char* outbuffer, int* outbufsize
 
 int process_programs_list(char* url, char* method, char* outbuffer, int* outbufsize)
 {
+    char result [RESPONSE_SHR] = {0};
     if (0 == strcmp(method, "GET"))
     {
-        strncpy(outbuffer, "[{\"name\" : \"compiler\",\"errcount\" : \"5\",\"repcount\" : \"6\"},{\"name\" : \"UI\",\"errcount\" : \"3\",\"repcount\" : \"2\"}]",
-            outbufsize ? *outbufsize : RESPONSE_LEN);
+        get_programs(result);
+        strncpy(outbuffer, result, outbufsize ? *outbufsize : RESPONSE_LEN); 
         return 0;
     }
     
@@ -77,11 +78,14 @@ int process_programs_list(char* url, char* method, char* outbuffer, int* outbufs
 
 int process_programs_name(char* url, char* method, char* outbuffer, int* outbufsize)
 {
+    char result [RESPONSE_SHR] = {0};
     if (0 == strcmp(method, "GET"))
     {
-        strncpy(outbuffer, "{\"name\" : \"UI\",\"errcount\" : \"3\",\"repcount\" : \"2\"}",
-            outbufsize ? *outbufsize : RESPONSE_LEN);
-        return 0;
+        if (get_program(strstr(url, "programs/") + strlen("programs/"), result))
+        {
+            strncpy(outbuffer, result, outbufsize ? *outbufsize : RESPONSE_LEN);      
+            return 0;
+        }
     }
     
     strncpy(outbuffer, "{}", outbufsize ? *outbufsize : RESPONSE_LEN);
@@ -90,6 +94,7 @@ int process_programs_name(char* url, char* method, char* outbuffer, int* outbufs
 
 int process_programs_reports(char* url, char* method, char* outbuffer, int* outbufsize)
 {
+    char result [RESPONSE_SHR] = {0};
     if (0 == strcmp(method, "GET"))
     {
         strncpy(outbuffer, "[{\"id\" : \"62857028\",\"program\" : \"compiler\",\"error\" : \"7F\",\"info\" : \"kernel_panic\"}]",
@@ -103,10 +108,11 @@ int process_programs_reports(char* url, char* method, char* outbuffer, int* outb
 
 int process_errors_list(char* url, char* method, char* outbuffer, int* outbufsize)
 {
+    char result [RESPONSE_SHR] = {0};
     if (0 == strcmp(method, "GET"))
     {
-        strncpy(outbuffer, "[{\"code\" : \"7F\",\"count\" : \"7\"},{\"code\" : \"DF\",\"count\" : \"3\"},{\"code\" : \"C0\",\"count\" : \"2\"}]",
-            outbufsize ? *outbufsize : RESPONSE_LEN);
+        get_errors(result);
+        strncpy(outbuffer, result, outbufsize ? *outbufsize : RESPONSE_LEN); 
         return 0;
     }
 
@@ -116,11 +122,14 @@ int process_errors_list(char* url, char* method, char* outbuffer, int* outbufsiz
 
 int process_errors_desc(char* url, char* method, char* outbuffer, int* outbufsize)
 {
+    char result [RESPONSE_SHR] = {0};
     if (0 == strcmp(method, "GET"))
     {
-        strncpy(outbuffer, "{\"code\" : \"7F\",\"count\" : \"7\"}",
-            outbufsize ? *outbufsize : RESPONSE_LEN);
-        return 0;
+        if (get_error(strstr(url, "errors/") + strlen("errors/"), result))
+        {
+            strncpy(outbuffer, result, outbufsize ? *outbufsize : RESPONSE_LEN);      
+            return 0;
+        }
     }
 
     strncpy(outbuffer, "{}", outbufsize ? *outbufsize : RESPONSE_LEN);
@@ -129,6 +138,7 @@ int process_errors_desc(char* url, char* method, char* outbuffer, int* outbufsiz
 
 int process_errors_reports(char* url, char* method, char* outbuffer, int* outbufsize)
 {
+    char result [RESPONSE_SHR] = {0};
     if (0 == strcmp(method, "GET"))
     {
         strncpy(outbuffer, "[{\"id\" : \"62857038\",\"program\" : \"compiler\",\"error\" : \"7F\",\"info\" : \"kernel_panic\"}]",
